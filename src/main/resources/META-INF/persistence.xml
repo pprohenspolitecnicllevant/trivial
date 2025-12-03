@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+
+    <!-- RESOURCE_LOCAL perquè gestionis les transaccions amb em.getTransaction() -->
+    <persistence-unit name="quizzMysql" transaction-type="RESOURCE_LOCAL">
+
+        <class>cat.politecnicllevant.firstweb.model.User</class>
+        <class>cat.politecnicllevant.firstweb.model.Game</class>
+
+        <properties>
+            <!-- Paràmetres JDBC (connexió directa des de JPA) -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://db:3306/quizz?createDatabaseIfNotExist=true"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="root"/>
+
+            <!-- Diccionari per a MySQL: ajuda a OpenJPA a generar l'SQL correcte -->
+            <property name="openjpa.jdbc.DBDictionary" value="mysql"/>
+
+            <!-- Log d'OpenJPA (útil en desenvolupament per veure l'SQL que genera) -->
+            <property name="openjpa.Log" value="DefaultLevel=ERROR, SQL=TRACE"/>
+
+            <!--
+                Sincronització de l'esquema amb les entitats:
+                - Crea taules/columnes noves si cal
+                - Afegeix claus foranes
+                - No esborra dades
+            -->
+            <property name="openjpa.jdbc.SynchronizeMappings"
+                      value="buildSchema(ForeignKeys=true)"/>
+
+            <!--
+                OPCIONAL (només per desenvolupament!):
+                Si vols que també esborris contingut de taules cada vegada:
+                <property name="openjpa.jdbc.SynchronizeMappings"
+                          value="buildSchema(ForeignKeys=true, SchemaAction='add,deleteTableContents')"/>
+            -->
+        </properties>
+    </persistence-unit>
+</persistence>
