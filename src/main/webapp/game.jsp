@@ -43,7 +43,6 @@
 <script>
     (() => {
         const timerEl = document.getElementById('time-remaining');
-        const contextPath = '<c:out value="${pageContext.request.contextPath}"/>';
         // Injectam el valor inicial del temps restant des del model de la vista.
         let remainingSeconds = parseInt('<c:out value="${remainingSeconds}"/>', 10);
 
